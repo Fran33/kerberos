@@ -242,4 +242,37 @@ Initializes a context for client-side authentication with the given service prin
 
 Initializes a context for server-side authentication with the given service principal.
 
+The context "server" can then be called with the client-provided token, and a callback for error handling.
+The original context "server" is updated with the plaintext username if the token was successfully decoded.
+
+kerberos 1.1.4 pattern as used in 2021, on nodejs server receiving kerberos token in http headers from client web browser
+const kerberos = require('kerberos');
+kerberos.initializeServer(service, (err, server) => {
+   let ticket = req.headers.authorization.substring(10);
+	server.step(ticket, (err, token) => {
+		if (err){
+         res.status(500).status({message: 'unable to parse kerberos token'});
+      } else {
+         res.set( 'WWW-Authenticate', 'Negotiate ' + context.response);
+         res.send(context.username);
+		}
+	});
+});
+
+revised from legacy pattern as documented here in 2017
+https://60devs.com/nodejs-sso-with-kerberos.html
+
+const KerberosNative = require('kerberos').Kerberos;
+const kerberos = new KerberosNative();
+
+//init context
+kerberos.authGSSServerInit("HTTP", function(err, context) {
+  //check ticket
+  kerberos.authGSSServerStep(context, ticket, function(err) {
+    //in success context contains username
+    res.set( 'WWW-Authenticate', 'Negotiate ' + context.response);
+    res.send(context.username);
+  });
+});
+
 **Returns**: <code>Promise</code> - returns Promise if no callback passed  
