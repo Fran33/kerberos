@@ -171,6 +171,9 @@ Perform the client side kerberos unwrap step
 Processes a single kerberos server-side step using the supplied client data.
 
 **Returns**: <code>Promise</code> - returns Promise if no callback passed  
+
+**Example**: <a href="#KerberosServerExample">Kerberos Server Example</a>
+
 <a name="checkPassword"></a>
 
 ## checkPassword(username, password, service, [defaultRealm], [callback])
@@ -242,8 +245,10 @@ Initializes a context for client-side authentication with the given service prin
 
 Initializes a context for server-side authentication with the given service principal.
 
+<a name="KerberosServerExample"></a>
+## Example
 **2017 legacy example**
-<a href="https://60devs.com/nodejs-sso-with-kerberos.html">example</a>
+<a href="https://60devs.com/nodejs-sso-with-kerberos.html">tutorial</a>
 
 <pre><code>
 const KerberosNative = require('kerberos').Kerberos;
