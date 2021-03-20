@@ -269,8 +269,8 @@ kerberos.initializeServer(service, (err, server) => {
 		if (err){
 		    res.status(500).status({message: 'unable to parse kerberos token'});
 		} else {
-		    res.set( 'WWW-Authenticate', 'Negotiate ' + context.response);
-		    res.send(context.username);
+		    res.set( 'WWW-Authenticate', 'Negotiate ' + server.response);
+		    res.send(server.username);
 		}
 	});
 });
