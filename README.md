@@ -245,6 +245,8 @@ Initializes a context for client-side authentication with the given service prin
 
 Initializes a context for server-side authentication with the given service principal.
 
+**Returns**: <code>Promise</code> - returns Promise if no callback passed  
+
 <a name="KerberosServerExample"></a>
 ## Example
 **2017 legacy example**
@@ -280,5 +282,3 @@ kerberos.initializeServer(service, (err, server) => {
 	});
 });
 </code></pre>
-
-**Returns**: <code>Promise</code> - returns Promise if no callback passed  
