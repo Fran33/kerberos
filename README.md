@@ -245,6 +245,7 @@ Initializes a context for server-side authentication with the given service prin
 **2017 legacy example**
 <a href="https://60devs.com/nodejs-sso-with-kerberos.html">example</a>
 
+[[code]]
 const KerberosNative = require('kerberos').Kerberos;
 const kerberos = new KerberosNative();
 
@@ -257,8 +258,10 @@ kerberos.authGSSServerInit("HTTP", function(err, context) {
         res.send(context.username);
     });
 });
+[[/code]]
 
 **2021 example for kerberos@1.1.4**
+[[code]]
 const kerberos = require('kerberos');
 kerberos.initializeServer(service, (err, server) => {
 	let ticket = req.headers.authorization.substring(10);
@@ -271,5 +274,6 @@ kerberos.initializeServer(service, (err, server) => {
 		}
 	});
 });
+[[/code]]
 
 **Returns**: <code>Promise</code> - returns Promise if no callback passed  
