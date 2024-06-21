@@ -171,6 +171,9 @@ Perform the client side kerberos unwrap step
 Processes a single kerberos server-side step using the supplied client data.
 
 **Returns**: <code>Promise</code> - returns Promise if no callback passed  
+
+**Example**: <a href="#KerberosServerExample">Kerberos Server Example</a>
+
 <a name="checkPassword"></a>
 
 ## checkPassword(username, password, service, [defaultRealm], [callback])
@@ -243,3 +246,39 @@ Initializes a context for client-side authentication with the given service prin
 Initializes a context for server-side authentication with the given service principal.
 
 **Returns**: <code>Promise</code> - returns Promise if no callback passed  
+
+<a name="KerberosServerExample"></a>
+## Example
+**2017 legacy example**
+<a href="https://60devs.com/nodejs-sso-with-kerberos.html">tutorial</a>
+
+<pre><code>
+const KerberosNative = require('kerberos').Kerberos;
+const kerberos = new KerberosNative();
+
+//init context
+kerberos.authGSSServerInit("HTTP", function(err, context) {
+    //check ticket
+    kerberos.authGSSServerStep(context, ticket, function(err) {
+        //in success context contains username
+        res.set( 'WWW-Authenticate', 'Negotiate ' + context.response);
+        res.send(context.username);
+    });
+});
+</code></pre>
+
+**2021 example for kerberos@1.1.4**
+<pre><code>
+const kerberos = require('kerberos');
+kerberos.initializeServer(service, (err, server) => {
+	let ticket = req.headers.authorization.substring(10);
+	server.step(ticket, (err, token) => {
+		if (err){
+		    res.status(500).status({message: 'unable to parse kerberos token'});
+		} else {
+		    res.set( 'WWW-Authenticate', 'Negotiate ' + server.response);
+		    res.send(server.username);
+		}
+	});
+});
+</code></pre>
